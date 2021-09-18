@@ -4,13 +4,16 @@
 MultiplyMatrix_Array: This is based on the multiplication of matrices that we commonly perform, without taking into account the memory space we use for the result of the multiplication. As a result, when multiplying matrices with a number greater than 800, there is a segmentation fault (core dumb), which indicates that it accesses memory that does not belong to the program.
 
 ```
-for (int i = 0; i < N; i++)
+void multMatrix(int N, int matrixA[N][N], int matrixB[N][N], int matrixC[N][N]){
+    for (int i = 0; i < N; i++)
         for (int j = 0; j < N; j++){
-            C[i][j] = 0;
+            matrixC[i][j] = 0;
             for (int k = 0; k < N; k++){
-                 C[i][j] += A[i][k] - B[k][j];
+                 matrixC[i][j] += matrixA[i][k] - matrixB[k][j];
             }
         }
+}
+
 
 ```
 
