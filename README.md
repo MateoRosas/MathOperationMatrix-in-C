@@ -53,8 +53,8 @@ void *multiply(void *arg){
         for (i = inicioFila; i < finFila; i++){
             for (j = 0; j < N; j++){
                 double *pA, *pB, suma=0.0;
-        	      pA = matrizA + i*N;
-    	          pB = matrizB + j;
+                pA = matrizA + i*N;
+    	        pB = matrizB + j;
                 for (k = 0; k < N; k++, pA++, pB+=N){
                      suma += (*pA * *pB);
                 }
