@@ -1,5 +1,10 @@
 # MathOperationMatrix in C
 
+Each directory contains a main program developed in C, which uses a .h interface where the matrix multiplication methods and matrix initialization are located. We also use a time interface which will allow us to perform the runtime capture where the matrix multiplication method is performed. To be more efficient in the execution of each code in C, we use a Makefile, therefore to compile all the code we write the following: make clean; make matrices1.
+
+There is another file (.pl) that allows the execution of N times of the program, this in order to calculate the multiplication of matrices in a certain size N_t and also in a certain number of threads N_h. 
+
+The version of each matrix multiplication is shown below:
 
 MultiplyMatrix_Array: This is based on the multiplication of matrices that we commonly perform, without taking into account the memory space we use for the result of the multiplication. As a result, when multiplying matrices with a number greater than 800, there is a segmentation fault (core dumb), which indicates that it accesses memory that does not belong to the program.
 
