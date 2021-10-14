@@ -6,7 +6,7 @@ There is another file (.pl) that allows the execution of N times of the program,
 
 The version of each matrix multiplication is shown below:
 
-MultiplyMatrix_Array: This is based on the multiplication of matrices that we commonly perform, without taking into account the memory space we use for the result of the multiplication. As a result, when multiplying matrices with a number greater than 800, there is a segmentation fault (core dumb), which indicates that it accesses memory that does not belong to the program.
+**MultiplyMatrix_Array**: This is based on the multiplication of matrices that we commonly perform, without taking into account the memory space we use for the result of the multiplication. As a result, when multiplying matrices with a number greater than 800, there is a segmentation fault (core dumb), which indicates that it accesses memory that does not belong to the program.
 
 ```
 void multMatrix(int N, int matrixA[N][N], int matrixB[N][N], int matrixC[N][N]){
@@ -22,7 +22,7 @@ void multMatrix(int N, int matrixA[N][N], int matrixB[N][N], int matrixC[N][N]){
 
 ```
 
-MultiplyMatrix_Pointers: This is based on matrix multiplication where the memory location to be occupied is referenced by pointers, the program reserves a memory space and the multiplication is analyzed in the form of two vectors that are traversed by pointers that jump between the number of rows and columns to perform the multiplication.
+**MultiplyMatrix_Pointers**: This is based on matrix multiplication where the memory location to be occupied is referenced by pointers, the program reserves a memory space and the multiplication is analyzed in the form of two vectors that are traversed by pointers that jump between the number of rows and columns to perform the multiplication.
 
 ```
 void multMatrix(int N, double *matrizA, double *matrizB, double *matrizC){
@@ -42,7 +42,7 @@ void multMatrix(int N, double *matrizA, double *matrizB, double *matrizC){
 ```
 
 
-MultiplyMatrix_Thread: It is based on the division of work by logical processing units (CPUs). It uses the POSIX Threads library to split workflows within the code. The function halves the vectors it is multiplying and calls two CPUs to each perform one half of the work. This reduces the execution time.
+**MultiplyMatrix_Thread**: It is based on the division of work by logical processing units (CPUs). It uses the POSIX Threads library to split workflows within the code. The function halves the vectors it is multiplying and calls two CPUs to each perform one half of the work. This reduces the execution time.
 
 ```
 void *multiply(void *arg){
@@ -72,4 +72,15 @@ void *multiply(void *arg){
         return 0;
     }
 
+```
+To compile each folder run the following commands in the terminal at the folder address:
+
+```
+    $ make clean; make matrices1
+    $ ./matrices1 [size of matrix] [number of threads]
+```
+If you want to compile more than thirty times at one execution, you need to open the 'lanzador.pl' file and verify the code at the first lines where it's explicit the size of matrix and the number of threads which you can change. After the respective configuration run the following command:
+
+```
+    $ ./lanzador.pl
 ```
