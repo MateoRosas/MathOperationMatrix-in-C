@@ -73,6 +73,109 @@ void *multiply(void *arg){
     }
 
 ```
+
+**MultiplyMatrix_MM1c_OpenMP**: It is based on the latest code containing the POSIX Threads library but with changes. This version uses the OpenMP library so that at the hardware level the machine can communicate with the computation cores and redistribute the workflows between them and this produces a better level of parallel instruction:
+
+```
+#pragma omp parallel for
+   for (int i = 0; i < N; i++){
+        for (int j = 0; j < N; j++){
+            double *pA, *pB, suma=0.0;
+	        pA = matrizA + i*N;
+	        pB = matrizB + j;
+            for (int k = 0; k < N; k++, pA++, pB+=N){
+                 suma += (*pA * *pB);
+            }
+	    matrizC[i*N + j] = suma;
+        }
+    }
+
+```
+
+**MultiplyMatrix_MM1f_OpenMP**: 
+```
+#pragma omp parallel for
+  for (int i=0; i<N; i++){
+     for(int j=0; j<N; j++){
+        double *pA, *pB, suma=0.0;
+        pA = matrizA + (i*N);
+        pB = matrizB + (j*N);
+        for(int k=0; k<N; k++, pA++, pB++){
+          suma += (*pA * *pB);
+         }
+     matrizC[i*N + j] = suma;
+     }
+  }
+```
+
+**MultiplyMatrix_MM1fu_OpenMP**: 
+```
+
+#pragma omp parallel for
+  for (i=0; i<N; i++){
+     for(j=0; j<N; j++){
+        double *pA, *pB, c0=0.0, c1=0.0, c2=0.0, c3=0.0;
+	    pA = matrizA + (i*N);
+        pB = matrizB + (j*N);
+        k = N;
+        while (k&3) // En caso de que N no sea multiplo de 4
+        {
+            c0 += (*pA * *pB);
+            k--;
+            pA++;
+            pB++;
+        }
+        for (;k>0;k-=4, pA+=4, pB+=4) //Atacar cuatro elementos a la vez
+        {
+         c0 += (*pA * *pB);
+         c1 += (*(pA+1) * *(pB+1));
+         c2 += (*(pA+2) * *(pB+2));
+         c3 += (*(pA+3) * *(pB+3));
+        
+        }
+        matrizC[i*N+j] = c0+c1+c2+c3;
+
+     }
+  }
+```
+
+**MultiplyMatrix_MM2f_OpenMP**: 
+```
+#pragma omp parallel for
+  for (i=0; i<N; i+=2){
+     for(j=0; j<N; j+=2){
+        double *pA, *pB, c0=0.0, c1=0.0, c2=0.0, c3=0.0;
+	pA = matrizA + (i*N);
+        pB = matrizB + (j*N);
+        for(k=N; k>0; k-=2, pA+=2, pB+=2){
+	  double a0, a1, a2, a3;
+	  double b0, b1, b2, b3;
+	  a0 = *pA;
+	  a1 = *(pA + 1);
+	  a2 = *(pA + 2);
+	  a3 = *(pA + 3);
+
+	  b0 = *pB;
+	  b1 = *(pB + 1);
+	  b2 = *(pB + 2);
+	  b3 = *(pB + 3);
+		
+	  c0 += a0*b0 + a1*b1;
+	  c1 += a0*b2 + a1*b3;
+          c2 += a2*b0 + a3*b1;
+	  c3 += a2*b2 + a3*b3;
+         }
+     pB = matrizC + i*N+j;
+     *(pB + 1) = c1;
+     *(pB + 2) = c2;
+     *(pB + 3) = c3;
+     }
+  }
+
+```
+
+
+
 To compile each folder run the following commands in the terminal at the folder address:
 
 ```
